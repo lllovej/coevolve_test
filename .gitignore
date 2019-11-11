@@ -1,9 +1,6 @@
 #igore all data folders and some files
 ref_proteome_all
 ref_proteomes/ecoli_data/*
-#ref_proteomes/ecoli_data/blast*
-#ref_proteomes/ecoli_data/ecoliDB*
-#ref_proteomes/ecoli_data/*.fasta
 !ref_proteomes/ecoli_data/after_rem.fasta
 !ref_proteomes/ecoli_data/ecoli_name.fasta
 ref_proteomes/dev_file
@@ -14,7 +11,6 @@ ref_proteomes/rbh_mmseqs/*
 !ref_proteomes/rbh_mmseqs/bin/
 ref_proteomes/rbh_blast/*
 !ref_proteomes/rbh_blast/bin/
-ref_proteomes/ecoli_data/*
 MMseqs2/
 ncbi-blast-2.9.0+/
 *ipynb_checkpoints
