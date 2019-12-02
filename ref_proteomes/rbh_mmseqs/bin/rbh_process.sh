@@ -19,6 +19,7 @@ idx=$(expr $offset + $SLURM_ARRAY_TASK_ID)
 f_name=$(sed -n ${idx}p $proteome_list)
 db_name=$(echo $f_name| cut -d '.' -f 1)
 
+
 cd ../result/
 #run mmseqs
 #mmseqs rbh ../../ecoli_data/ecoliDB ../alldata_db/$db_name "${db_name}rbh" tmp/$db_name --remove-tmp-files
