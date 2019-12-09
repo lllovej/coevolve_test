@@ -5,12 +5,15 @@ ref_proteomes/ecoli_data/*
 !ref_proteomes/ecoli_data/ecoli_name.fasta
 ref_proteomes/dev_file
 ref_proteomes/all_data
-#ref_proteomes/rbh_mmseqs
+ref_proteomes/align_orlog/*
+!ref_proteomes/align_orlog/bin/
 #ref_proteomes/rbh_blast
 ref_proteomes/rbh_mmseqs/*
+!ref_proteomes/rbh_mmseqs/README.md
 !ref_proteomes/rbh_mmseqs/bin/
 ref_proteomes/rbh_blast/*
 !ref_proteomes/rbh_blast/bin/
 MMseqs2/
 ncbi-blast-2.9.0+/
+hmmer-3.3/
 *ipynb_checkpoints
