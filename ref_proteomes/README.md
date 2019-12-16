@@ -43,7 +43,7 @@ A py version of *dl_remainfiles.sh* just for testing.
 ## directory:
 
 ### all_data/
-All the downloaded data files. (Might include *dl_proteome.sh*. check its existance before you count the files.)
+All the downloaded data files in *gz* format. (Might include *dl_proteome.sh*. check its existance before you count the files.) There is a subdir *unzipped/* which contains all upper-dir files unzipped and in fasta format. There is one extra file *whole.fasta* which concatenate all the proteome sequences into one fasta file. 
 
 ### ecoli_data/
 For *E coli* proteome & proteins.

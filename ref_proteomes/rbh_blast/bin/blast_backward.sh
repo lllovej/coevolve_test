@@ -2,7 +2,7 @@
 #SBATCH -A SNIC2019-3-319
 #SBATCH -c 5
 #SBATCH -t 24:00:00
-#SBATCH --array=1-5
+#SBATCH --array=1-565
 #SBATCH --error=/home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/error/%A_%a.error
 #SBATCH --output=/home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/out/%A_%a.out
 
@@ -59,8 +59,10 @@ psiblast -query $abspath/tmp/${pome_name}_${i}.fa -db $ecoli_file -out $abspath/
 #first check if the psiblast output is empty
 if [ ! -s $abspath/blast_reverse/${pome_name}_${i} ]
 then
-	echo "${qid} db is empty." 
-        continue
+	#echo "${qid} db is empty." 
+        rm $abspath/blast_reverse/${pome_name}_${i}
+	rm $abspath/tmp/${pome_name}_${i}.fa
+	continue
 fi
 
 #do the filtering
