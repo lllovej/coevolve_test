@@ -14,7 +14,7 @@ else
         offset=$1
 fi
 
-#insert modules
+#load modules
 ml GCC/7.3.0-2.30  CUDA/9.2.88  OpenMPI/3.1.1 pandas-plink/1.2.30-Python-2.7.15
 
 
@@ -22,62 +22,55 @@ ml GCC/7.3.0-2.30  CUDA/9.2.88  OpenMPI/3.1.1 pandas-plink/1.2.30-Python-2.7.15
 abspath=/home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/
 
 #get the forward_blast file name 
+#idx=2
 idx=$(expr $offset + $SLURM_ARRAY_TASK_ID)
 ecoli_file=/home/j/juliezhu/pfs/data/ref_proteomes/ecoli_data/blastecoli
 proteome_list=$abspath/proteome_list
 pome_name=$(sed -n ${idx}p $proteome_list)
 pname="${pome_name}_fw"
 
-#length=95
-length=$(wc -l < $abspath/blast_forward/$pname)
+#length of the loop: should be the same as the number of unique 'target' proteins in the forward_hit output. 
+#get the unique 'target' sequence id
+qid=$(sed -n ${i}p $abspath/blast_forward/$pname | cut -d '	' -f2 | sort -u)
+
+#get the fasta file of the proteome
+proteome_file=$(find ../../all_data/unzipped/ -name "*${pome_name}*")
+
 cd $abspath/blast_reverse/
 
 #iteration: blast all 'target' proteins in the file
-for i in `seq 1 $length`
-#for i in `seq 90 $length`
+
+while IFS= read -r line
 do
+#echo $line
 
-#get the 'target' sequence id
-qid=$(sed -n ${i}p $abspath/blast_forward/$pname | cut -d '	' -f2)
-
-#find its corresponding file name
-proteome_file=$(find ../../all_data/unzipped/ -name "${pome_name}*")
-#find the sequence of id
-pat1="^>${qid}.*"
+##find the sequence of the target protein $line
+pat1="^>${line}.*"
 pat2='^>.*'
 #echo $pat1,$pat2
-sequence=$(sed "1,/${pat1}/d;/${pat2}/,\$d" $proteome_file)
+sequence=$(sed "0,/${pat1}/d;/${pat2}/,\$d" $proteome_file)
+
+##find the info line of target protein $line
+id=$(grep $line $proteome_file)
+#echo $id
 #echo $sequence
 
-#create tmp file for single-sequence fa
-id=$(grep $qid $proteome_file)
-echo -e "${id}\n${sequence}" >> $abspath/tmp/${pome_name}_${i}.fa
+#save all sequences of hits in one proteome to a fa file.
+echo -e "${id}\n${sequence}" >> $abspath/tmp/${pome_name}.fa
+done <<< "$qid"
 
-#blast 
-psiblast -query $abspath/tmp/${pome_name}_${i}.fa -db $ecoli_file -out $abspath/blast_reverse/${pome_name}_${i} -num_iterations 3 -evalue 0.01 -outfmt "6 qseqid sseqid qlen slen length qcovs pident qstart qend sstart send evalue"
+##blast 
+psiblast -query $abspath/tmp/${pome_name}.fa -db $ecoli_file -out $abspath/blast_reverse/${pome_name} -num_iterations 3 -evalue 0.01 -outfmt "6 qseqid sseqid qlen slen length qcovs pident qstart qend sstart send evalue"
 
-#first check if the psiblast output is empty
-if [ ! -s $abspath/blast_reverse/${pome_name}_${i} ]
-then
-	#echo "${qid} db is empty." 
-        rm $abspath/blast_reverse/${pome_name}_${i}
-	rm $abspath/tmp/${pome_name}_${i}.fa
-	continue
-fi
+##first check if the psiblast output is empty
+#if [ ! -s $abspath/blast_reverse/${pome_name}_${i} ]
+#then
+#	#echo "${qid} db is empty." 
+#       rm $abspath/blast_reverse/${pome_name}_${i}
+#	rm $abspath/tmp/${pome_name}_${i}.fa
+#	continue
+#fi
 
-#do the filtering
-sed -i '/^Search.*/d;/^$/d' ${pome_name}_${i}
-python ../bin/blast_mainfilter.py ${pome_name}_${i} backward
-#echo ${pome_name}_${i}
-cat "${pome_name}_${i}" >>"${pome_name}"
-#delete the tmp file
-rm $abspath/tmp/${pome_name}_${i}.fa
-rm ${pome_name}_${i}
-done
-
-#for file in $(find . -name "${pome_name}*")
-#do 
-#cat "$file" >> "${pome_name}"
-#rm $file
-#done
-
+##do the filtering
+sed -i '/^Search.*/d;/^$/d' ${pome_name}
+python ../bin/blast_mainfilter.py ${pome_name} backward

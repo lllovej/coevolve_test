@@ -20,6 +20,9 @@ fi
 idx=$(expr $offset + $SLURM_ARRAY_TASK_ID)
 proteome_list=/home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/proteome_list
 pname=$(sed -n ${idx}p $proteome_list)
+ecoli_file=/home/j/juliezhu/pfs/data/ref_proteomes/ecoli_data/after_rem.fasta
+
+psiblast -query $ecoli_file -db ../alldata_db/$pname -out ../blast_out/$pname -num_iterations 3 -evalue 0.01 -outfmt "6 qseqid sseqid qlen slen length qcovs pident qstart qend sstart send evalue"
 
 cd ../blast_out/
 

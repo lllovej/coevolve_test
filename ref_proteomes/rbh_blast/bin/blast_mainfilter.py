@@ -18,7 +18,7 @@ def main():
     #AND query coverage >=0.5 or hit coverage >=0.5
     df = df[(df.slen >= 50) | (df.qcovs >= 50)]
     df = df[(df.qcovs >= 50) | (df.length / df.slen >= 0.5)]
-
+    
 #    #apply for parallel filtering process
     if direction == 'forward':
 #    #forward:
@@ -29,14 +29,15 @@ def main():
     elif direction == 'backward':
 	abs_path = '/home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/blast_backward/'
     	backward_hit = filtering(df)
-	prefix=abs_path+file.rsplit('_', 1)[0]+'_bw'
+	backward_hit.to_csv(abs_path+file+'_bw',header=False,sep='\t',index=False)
+#	prefix=abs_path+file.rsplit('_', 1)[0]+'_bw'
 	#print(prefix)
-	if os.path.exists(prefix):
-    		append_write = 'a' # append if already exists
-	else:
-    		append_write = 'w' # make a new file if not
+#	if os.path.exists(prefix):
+#    		append_write = 'a' # append if already exists
+#	else:
+#    		append_write = 'w' # make a new file if not
 	#print(backward_hit,append_write)
-       	backward_hit.to_csv(prefix,mode=append_write,header=False,sep='\t',index=False)    	
+#	backward_hit.to_csv(prefix,mode=append_write,header=False,sep='\t',index=False)    	
 	
 def filtering(df):
     '''
