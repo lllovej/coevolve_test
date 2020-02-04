@@ -33,15 +33,15 @@ if [[ -s $file1 && -s $file2 ]]; then
        #run python code to make the matching lines for interacting pair(same lines are from the same proteome)
 	python msa_generate.py $file1 $file2 $idx
        #run blastdbcmd to retrieve sequences for homologs
-        cd ../homolog_seq/
+        cd ../homolog_seq/inc_ecoli
 	blastdbcmd -db /home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/alldata_db/ref_db/refproteomeDB -entry_batch /home/j/juliezhu/pfs/data/ref_proteomes/control_dataset/tmp/${idx}_${pr1} -out ${idx}_${pr1}.fa
 	blastdbcmd -db /home/j/juliezhu/pfs/data/ref_proteomes/rbh_blast/alldata_db/ref_db/refproteomeDB -entry_batch /home/j/juliezhu/pfs/data/ref_proteomes/control_dataset/tmp/${idx}_${pr2} -out ${idx}_${pr2}.fa	
 
 #	echo 'blastdbcmd done!'
 	#add ecoli sequence in the beginning of the homolog file
-	cat ../seq_uniprot/$pr1.fasta ${idx}_${pr1}.fa > ${idx}_${pr1}.csv
+	cat ../../seq_uniprot/$pr1.fasta ${idx}_${pr1}.fa > ${idx}_${pr1}.csv
 	mv ${idx}_${pr1}.csv ${idx}_${pr1}.fa
-	cat ../seq_uniprot/$pr2.fasta ${idx}_${pr2}.fa > ${idx}_${pr2}.csv
+	cat ../../seq_uniprot/$pr2.fasta ${idx}_${pr2}.fa > ${idx}_${pr2}.csv
 	mv ${idx}_${pr2}.csv ${idx}_${pr2}.fa
 
 else

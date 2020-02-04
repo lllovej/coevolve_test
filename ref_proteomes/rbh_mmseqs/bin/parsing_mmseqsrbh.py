@@ -13,7 +13,7 @@ def main():
 		
     df = pd.read_csv(file, delimiter='\t', header=None)
     df.columns = ['Qid', 'Tid', 'SI', 'aliLEN', 'mismatch', 'gap', 'q_sta', 'q_end', 't_sta', 't_end', 'evalue',
-                      'bitscore']
+                      'bitscore','proteome']
     # apply evalue criteria
     df = df[df['evalue'] <= 0.01]
 
