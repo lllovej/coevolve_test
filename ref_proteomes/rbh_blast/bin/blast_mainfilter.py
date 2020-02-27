@@ -78,8 +78,8 @@ def rank_identity(df1):
     df1_rank = df1.sort_values('pident', ascending=False)
     ident_out = df1_rank.iloc[[0]]
     for i in range(1, len(df1_rank)):
-        pre_hit = set(range(int(ident_out.iloc[-1].qstart), int(ident_out.iloc[-1].qend + 1)))
-        cur_hit = set(range(int(df1_rank.iloc[i].qstart), int(df1_rank.iloc[i].qend + 1)))
+        pre_hit = set(range(int(ident_out.iloc[-1].tstart), int(ident_out.iloc[-1].tend + 1)))
+        cur_hit = set(range(int(df1_rank.iloc[i].tstart), int(df1_rank.iloc[i].tend + 1)))
         overlap = pre_hit & cur_hit
         judgement1 = (len(overlap) >= 0.25 * df1_rank.iloc[i]['length']) & (
                     df1_rank.iloc[i]['pident'] > df1_rank.iloc[0]['pident'] - 10)
@@ -100,8 +100,8 @@ def rank_eval(df2):
     df2_rank=df2.sort_values('evalue')
     eval_out=df2_rank.iloc[[0]]
     for i in range(1,len(df2_rank)):
-        pre_hit=set(range(int(eval_out.iloc[-1].qstart),int(eval_out.iloc[-1].qend+1)))
-        cur_hit=set(range(int(df2_rank.iloc[i].qstart),int(df2_rank.iloc[i].qend+1)))
+        pre_hit=set(range(int(eval_out.iloc[-1].tstart),int(eval_out.iloc[-1].tend+1)))
+        cur_hit=set(range(int(df2_rank.iloc[i].tstart),int(df2_rank.iloc[i].tend+1)))
         overlap=pre_hit & cur_hit
         judgement1 = (len(overlap)>=0.25*df2_rank.iloc[i]['length']) & (df2_rank.iloc[i]['evalue']<df2_rank.iloc[0]['evalue']*1e5)
         judgement2 = len(overlap)<0.25*df2_rank.iloc[i]['length']
