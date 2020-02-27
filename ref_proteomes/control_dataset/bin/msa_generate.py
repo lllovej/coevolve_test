@@ -33,6 +33,11 @@ def main():
        df3['1_x'].to_csv('/home/j/juliezhu/pfs/coevolve_1st/ref_proteomes/control_dataset/bla_tmp/'+idx+'_'+pr1,header=None,index=None)
        df3['1_y'].to_csv('/home/j/juliezhu/pfs/coevolve_1st/ref_proteomes/control_dataset/bla_tmp/'+idx+'_'+pr2,header=None,index=None)
 
+    elif opt == 'neg_bla':
+##netative blast dataset
+       df3['1_x'].to_csv('/home/j/juliezhu/pfs/coevolve_1st/ref_proteomes/control_dataset/bla_negtmp/'+idx+'_'+pr1,header=None,index=None)
+       df3['1_y'].to_csv('/home/j/juliezhu/pfs/coevolve_1st/ref_proteomes/control_dataset/bla_negtmp/'+idx+'_'+pr2,header=None,index=None)
+
     elif opt == 'neg_ctr':
 ##negative dataset
        df3['1_x'].to_csv('/home/j/juliezhu/pfs/coevolve_1st/ref_proteomes/control_dataset/nega_control/tmp/'+idx+'_'+pr1,header=None,index=None)
