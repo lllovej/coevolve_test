@@ -23,6 +23,8 @@ fi
 #cd ../result/
 #run mmseqs
 #mmseqs rbh ../../ecoli_data/ecoliDB ../alldata_db/$db_name "${db_name}rbh" tmp/$db_name --remove-tmp-files
-mmseqs rbh ../../ecoli_data/ecoliDB ../../all_data/refproteomeDB ../whole_rbh ../tmp/refproteomeDB --remove-tmp-files
+#mmseqs rbh ../../ecoli_data/ecoliDB ../../all_data/refproteomeDB ../whole_rbh ../tmp/refproteomeDB --remove-tmp-files
 #convert the result
 #mmseqs convertalis ../../ecoli_data/ecoliDB ../alldata_db/$db_name "${db_name}rbh" "${db_name}.m8"
+
+
