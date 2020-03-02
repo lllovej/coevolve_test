@@ -1,4 +1,5 @@
 #!/bin/bash
+
 #SBATCH -A SNIC2019-3-319
 #SBATCH -c 4
 #SBATCH -t 01:00:00
@@ -16,7 +17,7 @@ else
         offset=$1
 fi
 
-#idx=1
+#idx=23
 idx=$(expr $offset + $SLURM_ARRAY_TASK_ID)
 abspath=/home/j/juliezhu/pfs/coevolve_1st/ref_proteomes/rbh_mmseqite
 
@@ -33,8 +34,10 @@ mmseqs convertalis ../../ecoli_data/ecoliDB ../../rbh_mmseqs/alldata_db/$pname $
 
 ##run the forward filter 
 python ../bin/mmseq_mainfilter.py $filename forward 
-#echo 'forward hit done!'
+echo "${pname} forward hit done!"
 
+#rm -rf $abspath/forward/tmp/*
+#rm -rf $abspath/tmp/*
 
 
 ## backward hits
@@ -77,3 +80,6 @@ mmseqs convertalis $abspath/tmp/$pname $ecoli_file $pname "${pname}_bw.m8" --for
 
 # filter the backward file
 python ../bin/mmseq_mainfilter.py ${pname}_bw.m8 backward
+#rm -rf $abspath/backward/tmp/*
+echo "${pname} backward hit done!"
+
